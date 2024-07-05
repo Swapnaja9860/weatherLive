@@ -16,8 +16,9 @@ class TestHelperFunctions(unittest.TestCase):
         self.weather_response = {
             'coord': {'lon': 73.8567, 'lat': 18.5204},
             'weather': [{'description': 'clear sky'}],
-            'main': {'temp': 300.15, 'humidity': 40},
-            'wind': {'speed': 3.1}
+            'main': {'temp': 300.15, 'humidity': 40, 'feels_like': 302.15},
+            'wind': {'speed': 3.1},
+            'dt': 1625440855
         }
         self.air_pollutant_response = {
             'list': [{'main': {'aqi': 1}, 'components': {'pm2_5': 5.0, 'pm10': 10.0}}]
@@ -27,7 +28,7 @@ class TestHelperFunctions(unittest.TestCase):
                      {'main': {'aqi': 1}, 'components': {'pm2_5': 5.2, 'pm10': 10.2}}]
         }
 
-    @patch('scripts.helper.requests.get')
+    @patch('requests.get')
     def test_get_lat_lon_success(self, mock_get):
         self.mock_response.status_code = 200
         mock_get.return_value = self.mock_response
@@ -36,7 +37,7 @@ class TestHelperFunctions(unittest.TestCase):
         self.assertEqual(lat, 18.5204)
         self.assertEqual(lon, 73.8567)
 
-    @patch('scripts.helper.requests.get')
+    @patch('requests.get')
     def test_get_lat_lon_failure(self, mock_get):
         self.mock_response.status_code = 404
         mock_get.return_value = self.mock_response
@@ -45,7 +46,7 @@ class TestHelperFunctions(unittest.TestCase):
         self.assertIsNone(lat)
         self.assertIsNone(lon)
 
-    @patch('scripts.helper.requests.get')
+    @patch('requests.get')
     def test_get_current_weather_success(self, mock_get):
         mock_get_lat_lon = patch('scripts.helper.get_lat_lon', return_value=self.mock_lat_lon).start()
         self.mock_response.status_code = 200
@@ -58,11 +59,13 @@ class TestHelperFunctions(unittest.TestCase):
         self.assertEqual(response['weather'], {'description': 'clear sky'})
         self.assertEqual(response['temperature'], 300.15)
         self.assertEqual(response['humidity'], 40)
-        self.assertEqual(response['wind speed'], 3.1)
+        self.assertEqual(response['wind_speed'], 3.1)
+        self.assertEqual(response['feels_like'], 302.15)
+        self.assertEqual(response['datetime'], 1625440855)
 
         mock_get_lat_lon.stop()
 
-    @patch('scripts.helper.requests.get')
+    @patch('requests.get')
     def test_get_current_weather_failure(self, mock_get):
         mock_get_lat_lon = patch('scripts.helper.get_lat_lon', return_value=(None, None)).start()
         self.mock_response.status_code = 404
@@ -73,7 +76,7 @@ class TestHelperFunctions(unittest.TestCase):
 
         mock_get_lat_lon.stop()
 
-    @patch('scripts.helper.requests.get')
+    @patch('requests.get')
     def test_get_air_pollutant_success(self, mock_get):
         self.mock_response.status_code = 200
         self.mock_response.json.return_value = self.air_pollutant_response
@@ -85,7 +88,7 @@ class TestHelperFunctions(unittest.TestCase):
         self.assertEqual(response[0]['components']['pm2_5'], 5.0)
         self.assertEqual(response[0]['components']['pm10'], 10.0)
 
-    @patch('scripts.helper.requests.get')
+    @patch('requests.get')
     def test_get_air_pollutant_failure(self, mock_get):
         self.mock_response.status_code = 404
         mock_get.return_value = self.mock_response
@@ -93,7 +96,7 @@ class TestHelperFunctions(unittest.TestCase):
         response = get_air_pollutant("Pune, IN")
         self.assertIsNone(response)
 
-    @patch('scripts.helper.requests.get')
+    @patch('requests.get')
     def test_get_forecast_air_pollutant_success(self, mock_get):
         self.mock_response.status_code = 200
         self.mock_response.json.return_value = self.air_pollutant_forecast_response
@@ -103,7 +106,7 @@ class TestHelperFunctions(unittest.TestCase):
         self.assertIsNotNone(response)
         self.assertGreater(len(response), 1)
 
-    @patch('scripts.helper.requests.get')
+    @patch('requests.get')
     def test_get_forecast_air_pollutant_failure(self, mock_get):
         self.mock_response.status_code = 404
         mock_get.return_value = self.mock_response
