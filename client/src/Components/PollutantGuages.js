@@ -24,7 +24,7 @@ const PollutantGauges = ({ airPollutantData }) => {
     PM10: components["pm10"],
   };
   return (
-    <div className="w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grids-col-3 xl:grid-cols-3 gap-10">
+    <div className="w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 p-2 gap-x-20 xl:gap-x-40 gap-y-10 overflow-x-auto">
       {Object.keys(ranges).map((pollutant) => (
         <ChartCards
           key={pollutant}
@@ -36,6 +36,7 @@ const PollutantGauges = ({ airPollutantData }) => {
           colors={colors}
         />
       ))}
+      {/* </div> */}
     </div>
   );
 };

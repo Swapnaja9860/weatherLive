@@ -25,34 +25,36 @@ const AirQuality = ({ airPollutantData, forecastAirPollutantData }) => {
     <div className="w-full">
       <div className="flex flex-col items-start justify-between gap-20 py-10">
         <div className="flex flex-col w-full gap-10">
-          <div className="flex flex-row items-center">
+          <div className="flex flex-col lg:flex-row items-center lg:justify-between">
             <div>
               <h1 className="text-2xl">Pollutant Concentration</h1>
             </div>
-            <div className="flex flex-row items-center gap-10 mt-4">
+            <div className="flex flex-row items-center gap-10 mt-4 whitespace-nowrap ">
               <p className="text-lg text-gray-700">Air Quality Index : </p>
               <p className={`text-xl font-bold`} style={{ color }}>
                 {qualitativeNames[colorIndex]}
               </p>
 
               {/* <div> */}
-              <DropDown
+              {/* <DropDown
                 optionList={["Chart", "Table"]}
                 selectedOption={view}
                 setSelectedOption={setView}
                 label={"View as : "}
-              />
+              /> */}
             </div>
           </div>
-          <div className="flex flex-col lg:flex-row w-full justify-between">
-            <div className="w-3/5">
+          <div className="flex flex-col xl:flex-row w-full justify-between xl:gap-15">
+            <div className="w-full xl:w-3/5">
               <PollutantGauges airPollutantData={airPollutantData} />
             </div>
-            <div className="w-2/5">
+            <div className="w-10"></div>
+            <div className="w-full xl:w-2/5">
               <AirQualityTable airPollutantData={airPollutantData} />
             </div>
           </div>
         </div>
+
         <div className="w-full">
           <div className="flex flex-row items-center gap-10 mb-4">
             <h1 className="text-2xl">Forecasted Air Pollutants</h1>

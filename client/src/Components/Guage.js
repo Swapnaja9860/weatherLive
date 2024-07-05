@@ -33,7 +33,7 @@ const ArcGauge = ({ idComp, annotationValue, ranges, colors }) => {
         background="transparent"
         id={idComp}
         width="70%"
-        height="225px"
+        height="215px"
       >
         <Inject services={[Annotations]} />
         <AxesDirective>
