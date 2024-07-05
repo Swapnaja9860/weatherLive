@@ -12,6 +12,13 @@ Fetch air pollutant concentrations and their corresponding indices with differen
 Forecasted Air Pollutant Data:
 Get predictions for air pollutant concentrations over a specified period for the chosen city.
 
+## Screens
+![Screen1_Pune](https://github.com/Swapnaja9860/weatherLive/assets/41316441/fe6457b6-17a4-4d93-a2fc-4a112bbcd4f9)
+![Forecasted_air_pollutat](https://github.com/Swapnaja9860/weatherLive/assets/41316441/4e3a9ad8-5828-4fc4-a636-ff410d2b92bd)
+
+
+
+
 ## Build the frontend
 
 From the root directory :
